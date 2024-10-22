@@ -1,3 +1,20 @@
+# Next Auth V5 - Advanced Guide (2024)
+YouTube: [https://youtu.be/1MTyCvS05V4]
+
+# Installation
+
+```bash
+npx create-next-app@latest .
+
+// Shadcn (Normally does not install on Next15 with ReactJS 19rc)
+npx --legacy-peer-deps shadcn@latest init -d
+```
+
+
+-- ------------------------------------
+# NextJS Default Message
+-- ------------------------------------
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
