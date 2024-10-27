@@ -19,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { login } from "@/actions/login";
+import { register } from "@/actions/register";
 
 const RegisterForm = () => {
 
@@ -46,7 +46,7 @@ const RegisterForm = () => {
 
 		// 1:26:58
 		startTransition(() => {
-			login(values)
+			register(values)
 				.then((data) => {
 					setError(data.error);
 					setSuccess(data.success);
@@ -130,7 +130,7 @@ const RegisterForm = () => {
 						type="submit"
 						className="w-full"
 					>
-						Login
+						Create an account
 					</Button>
 				</form>
 			</Form>

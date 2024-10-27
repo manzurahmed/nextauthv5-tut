@@ -12,7 +12,17 @@ npx shadcn@latest add form
 npx shadcn@latest add input
 
 npm i react-icons
+
+// Prisma
+npm i --save-dev prisma@latest
+npm i @prisma/client@latest
+npx prisma init
 ```
+
+# NEON.TECH - Online Postgres Database
+
+Signed Up on NEON with my Gmail
+NEON Password: hasTe@247deKho
 
 # ReactJS Tutorial
 
