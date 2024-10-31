@@ -1,6 +1,9 @@
 # Next Auth V5 - Advanced Guide (2024)
 YouTube: [https://www.youtube.com/watch?v=1MTyCvS05V4&t=3345s]
 
+# NextAuth NEW Documentation
+[https://authjs.dev/]
+
 # Packages
 
 ```bash
@@ -17,7 +20,59 @@ npm i react-icons
 npm i --save-dev prisma@latest
 npm i @prisma/client@latest
 npx prisma init
+
+// NextAuth Version 5 [authjs.dev]
+// Configuratiion: [https://authjs.dev/getting-started/installation?framework=Next.js]
+npm install next-auth@beta
+
+// NextAuth v5 Prisma Adapter
+[https://authjs.dev/getting-started/adapters/prisma]
+npm i @auth/prisma-adapter
+
+// Password encryption
+npm i bcrypt
+npm i -D @types/bcrypt
 ```
+
+# NextAuth Setup
+
+1. Start by creating a new *auth.ts* file at the root of your app with the following content.
+
+```javascript
+import NextAuth from "next-auth"
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  providers: [],
+})
+```
+
+2. Add a Route Handler under */app/api/auth/[...nextauth]/route.ts*.
+
+```javascript
+import { handlers } from "@/auth" // Referring to the auth.ts we just created
+export const { GET, POST } = handlers
+```
+
+3. Add optional Middleware to keep the session alive, this will update the session expiry every time its called.
+
+```javascript
+export { auth as middleware } from "@/auth"
+```
+
+## MissingSecret in NextAuth [https://errors.authjs.dev#missingsecret]
+
+Auth.js requires a secret or multiple secrets to be set, but none was not found. This is used to encrypt cookies, JWTs and other sensitive data.
+
+If you are using a framework like *Next.js*, we try to automatically infer the secret from the *AUTH_SECRET, AUTH_SECRET_1*, etc. environment variables. Alternatively, you can also explicitly set the *AuthConfig.secret* option.
+
+### How to general NEXTAUTH_SECRET hash string
+
+Open the *Cmdr* as *bash* and type the following command to generate NEXTAUTH_SECRET:
+
+```
+openssl rand -base64 32
+```
+
 
 # NEON.TECH - Online Postgres Database
 
