@@ -61,17 +61,17 @@ export { auth as middleware } from "@/auth"
 
 ## MissingSecret in NextAuth [https://errors.authjs.dev#missingsecret]
 
-Auth.js requires a secret or multiple secrets to be set, but none was not found. This is used to encrypt cookies, JWTs and other sensitive data.
-
-If you are using a framework like *Next.js*, we try to automatically infer the secret from the *AUTH_SECRET, AUTH_SECRET_1*, etc. environment variables. Alternatively, you can also explicitly set the *AuthConfig.secret* option.
+In *Next.js*, put the *NEXTAUTH_SECRET* in the .env file:
 
 ### How to general NEXTAUTH_SECRET hash string
 
 Open the *Cmdr* as *bash* and type the following command to generate NEXTAUTH_SECRET:
 
-```
+```bash
 openssl rand -base64 32
 ```
+
+
 
 
 # NEON.TECH - Online Postgres Database
