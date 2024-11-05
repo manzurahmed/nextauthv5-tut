@@ -8,7 +8,9 @@ import { db } from "@/lib/db";
 // Prisma Adapter Setup: [https://authjs.dev/getting-started/adapters/prisma]
 export const {
 	handlers,
-	auth
+	auth,
+	signIn,
+	signOut,
 } = NextAuth({
 	adapter: PrismaAdapter(db), // Non-Edge Prisma Adapter
 	session: { strategy: "jwt" },

@@ -4,6 +4,13 @@ YouTube: [https://www.youtube.com/watch?v=1MTyCvS05V4&t=3345s]
 # NextAuth NEW Documentation
 [https://authjs.dev/]
 
+# .env
+
+```javascript
+NEXTAUTH_SECRET="JyeRV5Ob//BZVyFmFktqO0x0M1Pd3JWIIVvlyxq1DKQ="
+DATABASE_URL="postgresql://nextauthv5_owner:wBRKmj3X4Ihr@ep-noisy-butterfly-a1fnsfbw.ap-southeast-1.aws.neon.tech/nextauthv5?sslmode=require"
+```
+
 # Packages
 
 ```bash
@@ -30,8 +37,8 @@ npm install next-auth@beta
 npm i @auth/prisma-adapter
 
 // Password encryption
-npm i bcrypt
-npm i -D @types/bcrypt
+npm i bcryptjs
+npm i -D @types/bcryptjs
 ```
 
 # NextAuth Setup
