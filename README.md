@@ -81,8 +81,37 @@ Open the *Cmdr* as *bash* and type the following command to generate NEXTAUTH_SE
 openssl rand -base64 32
 ```
 
+## Getting Github clientId and clientSecret
 
+1. Go to your Github account
+2. Click on your profile avatar and choose *Settings* from the dropdown menu.
+3. Click *Developer Settings*.
+4. Click *OAuth Apps* from the left sidebar.
+5. Click *New OAuth App" button.
+6. You should see your new clientId and generate a clientSecret from here.
 
+## Getting Google clientId and clientSecret
+
+1. Go to (Google Cloud console)[https://console.cloud.google.com/].
+2. Beside the Google Cloud logo, click on the projects list. Click *NEW PROJECT*.
+3. Give a project name for your project and create the project. After few moment, your new project will be created and press the "Select Project" button.
+4. Later, your new project will open to a new page.
+5. Search "Apis and Services" from the top search bar.
+6. Click on "OAuth consent Screen" and select "External" from the right hand side and press the "CREATE" button.
+7. Type in your app name in "App Information" section
+8. Type in your support email and developer email address.
+9. Click on the "Save and Continue" button. Click on the Save and Continue button on the next screens.
+10. Click on "Go to Dashboard".
+11. Next click on "Credentials" link on the left sidebar.
+12. Press the "Create Credentials" and click on "OAuth client ID".
+    - Application type: Web application
+    - Name: Web client 1
+    - Authorized JavaScript origins: http://localhost:3000
+    - Authorized redirect URIs
+13. Click on "CREATE" button.
+14. A popup will appear where you should see your Client ID and Client secret.
+    - Client ID:
+    - Client secret:
 
 # NEON.TECH - Online Postgres Database
 

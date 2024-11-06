@@ -10,7 +10,8 @@ import { JWT, DefaultJWT } from "next-auth/jwt";
 // Extending interface JWT
 // 3:13:40
 declare module "next-auth/jwt" {
-	interface JWT extends DefaultJWT {
+	// interface JWT extends DefaultJWT {
+	interface JWT {
 		id: string,
 		role?: UserRole
 	}
@@ -24,9 +25,9 @@ export type ExtendedUser = DefaultSession["user"] & {
 
 // 3:09:44
 declare module "next-auth" {
-	interface User extends DefaultUser {
-		role: UserRole,
-	}
+	// interface User extends DefaultUser {
+	// 	role: UserRole,
+	// }
 
 	interface Session {
 		user: ExtendedUser;
