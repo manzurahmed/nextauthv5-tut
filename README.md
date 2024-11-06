@@ -4,13 +4,6 @@ YouTube: [https://www.youtube.com/watch?v=1MTyCvS05V4&t=3345s]
 # NextAuth NEW Documentation
 [https://authjs.dev/]
 
-# .env
-
-```javascript
-NEXTAUTH_SECRET="JyeRV5Ob//BZVyFmFktqO0x0M1Pd3JWIIVvlyxq1DKQ="
-DATABASE_URL="postgresql://nextauthv5_owner:wBRKmj3X4Ihr@ep-noisy-butterfly-a1fnsfbw.ap-southeast-1.aws.neon.tech/nextauthv5?sslmode=require"
-```
-
 # Packages
 
 ```bash
@@ -69,6 +62,16 @@ export { auth as middleware } from "@/auth"
 ## MissingSecret in NextAuth [https://errors.authjs.dev#missingsecret]
 
 In *Next.js*, put the *NEXTAUTH_SECRET* in the .env file:
+
+## callback in auth.ts
+
+[https://authjs.dev/guides/role-based-access-control#using-the-role]
+
+## Augmenting Session for TypeScript
+
+[https://authjs.dev/getting-started/typescript]
+
+
 
 ### How to general NEXTAUTH_SECRET hash string
 

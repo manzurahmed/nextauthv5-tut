@@ -14,6 +14,9 @@ export default {
 				if (validatedFields.success) {
 					const { email, password } = validatedFields.data;
 
+					// Inside auth.config.js, we can freely use Prisma in providers credentials,
+					// because, it does not run on "Edge".
+
 					const user = await getUserByEmail(email);
 					// User who logged in using Google or GitHub does not have password
 					if (!user || !user.password) {
