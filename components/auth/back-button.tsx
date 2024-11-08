@@ -8,6 +8,7 @@ interface BackButtonProps {
 	label: string;
 }
 
+// 1:03:06
 const BackButton = ({
 	href,
 	label
@@ -28,4 +29,4 @@ const BackButton = ({
 	)
 }
 
-export default BackButton
+export { BackButton };

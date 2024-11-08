@@ -26,8 +26,25 @@ export const {
 	signIn,
 	signOut,
 } = NextAuth({
+	// 3:37:35
+	pages: {
+		signIn: "/auth/login",
+		error: "/auth/error",
+	},
+	// 3:34:55
+	events: {
+		async linkAccount({ user }) {
+			await db.user.update({
+				where: {
+					id: user.id
+				},
+				data: {
+					emailVerified: new Date()
+				}
+			})
+		}
+	},
 	callbacks: {
-
 		// 3:18:42
 		/*
 		async signIn({ user }) {

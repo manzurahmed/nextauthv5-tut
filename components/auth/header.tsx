@@ -10,6 +10,7 @@ interface HeaderProps {
 	label: string;
 }
 
+// 56:34
 export const Header = ({
 	label,
 }: HeaderProps

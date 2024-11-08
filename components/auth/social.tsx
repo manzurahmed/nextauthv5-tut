@@ -6,6 +6,7 @@ import { FaGithub } from "react-icons/fa"
 import { Button } from "@/components/ui/button"
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
+// 59:44
 export const Social = () => {
 
 	// 3:28:43
