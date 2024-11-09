@@ -60,6 +60,32 @@ export const {
 		},
 		*/
 
+		// 4:04:04
+		async signIn({ user, account }) {
+
+			console.log(
+				user,
+				account
+			)
+
+			// Allow OAuth without email verification
+			// IF YOU HAVE MORE PROVIDERS, CHANGE HERE TO SUITE YOUR NEEDS
+			if (account?.provider !== "credentials") {
+				return true;
+			}
+
+			const existingUser = await getUserById(user?.id as string);
+
+			// Prevent sign in without email verification
+			if (!existingUser?.emailVerified) {
+				return false;
+			}
+
+			// TODO: Add 2FA check
+
+			return true;
+		},
+
 		// In auth.js in NextAuth v5, Session uses the token to actually generate the session.
 		async session({ token, session }) {
 			// session in both "session" and "jwt" are identical

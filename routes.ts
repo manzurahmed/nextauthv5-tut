@@ -7,7 +7,8 @@
  * @type {string[]}
  */
 export const publicRoutes = [
-	"/"
+	"/",
+	"/auth/new-verification", // both logged-in and logged-out users will use this path
 ];
 
 /**

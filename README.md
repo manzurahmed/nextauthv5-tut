@@ -32,6 +32,16 @@ npm i @auth/prisma-adapter
 // Password encryption
 npm i bcryptjs
 npm i -D @types/bcryptjs
+
+// UUID
+npm i uuid
+npm install --save-dev @types/uuid
+
+// Resend
+npm i resend
+
+// Spinners
+npm i react-spinners
 ```
 
 # NextAuth Setup

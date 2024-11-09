@@ -25,8 +25,11 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.1",
     "react-icons": "^5.3.0",
+    "react-spinners": "^0.14.1",
+    "resend": "^4.0.1-alpha.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
+    "uuid": "^11.0.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -34,6 +37,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^10.0.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",
