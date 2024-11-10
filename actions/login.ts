@@ -6,18 +6,28 @@ import { AuthError } from "next-auth";
 import { signIn } from "@/auth";
 import { LoginSchema } from "@/schemas";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { generateVerificationToken } from "@/data/tokens";
 import { getUserByEmail } from "@/data/user";
-import { sendVerificationEmail } from "@/lib/email";
+import {
+	sendVerificationEmail,
+	sendTwoFactorTokenEmail
+} from "@/lib/mail";
+import {
+	generateVerificationToken,
+	generateTwoFactorToken
+} from "@/lib/tokens";
+import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
+import { db } from "@/lib/db";
+import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
-	const validatedFields = LoginSchema.safeParse(values);
 
+	// Check incoming data
+	const validatedFields = LoginSchema.safeParse(values);
 	if (!validatedFields.success) {
 		return { error: "Invalid fields!" }
 	}
 
-	const { email, password } = validatedFields.data;
+	const { email, password, code } = validatedFields.data;
 
 	// 3:58:44
 	const existingUser = await getUserByEmail(email);
@@ -26,6 +36,77 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 	if (!existingUser || !existingUser.email || !existingUser?.password) {
 		return {
 			error: "Email does not exists!"
+		}
+	}
+
+	// 5:41:30
+	// 2FA confirmation
+	if (existingUser.isTwoFactorEnabled && existingUser.email) {
+
+		// 1. If we have the code, we verify the code
+		// 2. Else, we send email with 2FA code
+		if (code) {
+			// Get existing 2FA code
+			const twoFactorToken = await getTwoFactorTokenByEmail(
+				existingUser.email
+			);
+			// If there is no 2FA data in DB
+			if (!twoFactorToken) {
+				return {
+					error: "Invalid code!"
+				}
+			}
+			// On incoming code DOES NOT MATCH code in DB
+			if (twoFactorToken.token !== code) {
+				return {
+					error: "Invalid code!"
+				}
+			}
+			// Check code expiry time
+			const hasExpired = new Date(twoFactorToken.expires) < new Date();
+			if (hasExpired) {
+				return {
+					error: "Code expired!"
+				}
+			}
+
+			// Finally, we can delete the 2FA code from DB
+			await db.twoFactorToken.delete({
+				where: {
+					id: twoFactorToken.id
+				}
+			});
+
+			// Get existing confirmation
+			const existingConfirmation = await getTwoFactorConfirmationByUserId(
+				existingUser.id
+			);
+			// if there is confirmation in DB, remove it
+			if (existingConfirmation) {
+				await db.twoFactorConfirmation.delete({
+					where: {
+						id: existingConfirmation.id
+					}
+				});
+			}
+
+			// Save confirmation to DB
+			await db.twoFactorConfirmation.create({
+				data: {
+					userId: existingUser.id
+				}
+			});
+
+		} else {
+			// Get 6-digit token
+			const twoFactorToken = await generateTwoFactorToken(existingUser.email);
+			// Send 2FA email
+			await sendTwoFactorTokenEmail(
+				twoFactorToken.email,
+				twoFactorToken.token
+			);
+
+			return { twoFactor: true };
 		}
 	}
 
@@ -56,6 +137,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 		// return {
 		// 	success: "Login successfully"
 		// }
+
 	} catch (error) {
 		if (error instanceof AuthError) {
 			switch (error.type) {

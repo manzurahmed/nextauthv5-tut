@@ -5,6 +5,7 @@ import * as z from "zod";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form"
+import Link from "next/link";
 import { CardWrapper } from "@/components/auth/card-wrapper"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { LoginSchema } from "@/schemas";
@@ -22,6 +23,7 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
 
+
 // 51:59
 const LoginForm = () => {
 
@@ -32,6 +34,8 @@ const LoginForm = () => {
 		: "";
 	console.log(urlError);
 
+	// 5:43:52
+	const [showTwoFactor, setShowTwoFactor] = useState(false);
 	// 1:30:53
 	const [error, setError] = useState<string | undefined>("");
 	const [success, setSuccess] = useState<string | undefined>("");
@@ -43,6 +47,7 @@ const LoginForm = () => {
 		defaultValues: {
 			email: "",
 			password: "",
+			code: "",
 		}
 	});
 
@@ -53,12 +58,26 @@ const LoginForm = () => {
 		setSuccess("");
 
 		// 1:26:58
+		// User can't login without 2FA confirmation in each signIn
 		startTransition(() => {
 			login(values)
 				.then((data) => {
-					setError(data?.error);
-					setSuccess(data?.success);
-				});
+
+					if (data?.error) {
+						form.reset();
+						setError(data.error);
+					}
+
+					if (data?.success) {
+						form.reset();
+						setSuccess(data.success);
+					}
+
+					if (data?.twoFactor) {
+						setShowTwoFactor(true);
+					}
+				})
+				.catch(() => setError("Something went wrong!"));
 		})
 	}
 
@@ -75,42 +94,85 @@ const LoginForm = () => {
 					className="space-y-6"
 				>
 					<div className="space-y-4">
-						<FormField
-							control={form.control}
-							name="email"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Email</FormLabel>
-									<FormControl>
-										<Input
-											{...field}
-											disabled={isPending}
-											placeholder="john.doe@example.com"
-											type="email"
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="password"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Password</FormLabel>
-									<FormControl>
-										<Input
-											{...field}
-											disabled={isPending}
-											placeholder="******"
-											type="password"
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+						{/** On getting 2FA code, show 2FA verification form */}
+						{
+							showTwoFactor && (
+								<FormField
+									control={form.control}
+									name="code"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Two Factor Code</FormLabel>
+											<FormControl>
+												<Input
+													{...field}
+													disabled={isPending}
+													placeholder="123456"
+													type="digit"
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							)
+						}
+
+						{/** Show login form until we get 2FA code */}
+						{
+							!showTwoFactor &&
+							<>
+								<FormField
+									control={form.control}
+									name="email"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Email</FormLabel>
+											<FormControl>
+												<Input
+													{...field}
+													disabled={isPending}
+													placeholder="john.doe@example.com"
+													type="email"
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<FormField
+									control={form.control}
+									name="password"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Password</FormLabel>
+											<FormControl>
+												<Input
+													{...field}
+													disabled={isPending}
+													placeholder="******"
+													type="password"
+												/>
+											</FormControl>
+
+											{/** Forgot Email */}
+											<Button
+												size="sm"
+												variant="link"
+												asChild
+												className="px-0 font-normal"
+											>
+												<Link href="/auth/reset">
+													Forgot password?
+												</Link>
+											</Button>
+
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</>
+						}
 					</div>
 
 					<FormError message={error || urlError} />
@@ -121,7 +183,9 @@ const LoginForm = () => {
 						type="submit"
 						className="w-full"
 					>
-						Login
+						{
+							showTwoFactor ? "Confirm" : "Login"
+						}
 					</Button>
 				</form>
 			</Form>

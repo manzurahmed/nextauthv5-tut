@@ -20,6 +20,11 @@ export const NewVerificationForm = () => {
 	const onSubmit = useCallback(() => {
 		// console.log((token))
 
+		// 4:43:02
+		if (success || error) {
+			return
+		}
+
 		// If there is no "token" exists in the URL, do not check anything.
 		if (!token) {
 			setError("Missing token!");
@@ -35,8 +40,10 @@ export const NewVerificationForm = () => {
 			.catch(() => {
 				setError("Something went wrong!");
 			});
-	}, [token]);
+	}, [token, success, error]);
 
+	// You will see "Token does not exist" error message twice in the dev mode,
+	// but, it won't show up in the product, claimed the auther of the tutorial
 	useEffect(() => {
 		onSubmit();
 	}, [onSubmit]);
@@ -48,9 +55,15 @@ export const NewVerificationForm = () => {
 			backButtonHref=""
 		>
 			<div className="flex flex-col gap-4 items-center w-full justify-center">
-				<BeatLoader />
-				<FormError message={error} />
+				{
+					!success && !error && (
+						<BeatLoader />
+					)
+				}
 				<FormSuccess message={success} />
+				{!success && (
+					<FormError message={error} />
+				)}
 			</div>
 		</CardWrapper>
 	)

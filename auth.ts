@@ -5,6 +5,8 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import authConfig from "@/auth.config";
 import { db } from "@/lib/db";
 import { getUserById } from "@/data/user";
+// 5:37:05
+import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
 // 3:09:44
 /*
@@ -63,10 +65,10 @@ export const {
 		// 4:04:04
 		async signIn({ user, account }) {
 
-			console.log(
-				user,
-				account
-			)
+			// console.log(
+			// 	user,
+			// 	account
+			// )
 
 			// Allow OAuth without email verification
 			// IF YOU HAVE MORE PROVIDERS, CHANGE HERE TO SUITE YOUR NEEDS
@@ -81,7 +83,29 @@ export const {
 				return false;
 			}
 
-			// TODO: Add 2FA check
+			// 2FA check
+			// 5:36:19
+			if (existingUser.isTwoFactorEnabled) {
+				const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
+
+				// console.log(
+				// 	"Auth signIn:",
+				// 	{ twoFactorConfirmation }
+				// )
+
+				// If we don't have confirmation, then return false
+				if (!twoFactorConfirmation) {
+					return false;
+				}
+
+				// Delete two factor confirmation for next sign in
+				// For next sign in, 2FA confirmation is must
+				await db.twoFactorConfirmation.delete({
+					where: {
+						id: twoFactorConfirmation.id
+					}
+				});
+			}
 
 			return true;
 		},
