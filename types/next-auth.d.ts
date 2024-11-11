@@ -18,17 +18,15 @@ declare module "next-auth/jwt" {
 }
 
 // 3:11:52
+// Add additional fields here to add in User in Session
 export type ExtendedUser = DefaultSession["user"] & {
-	// id: string;
 	role: UserRole;
+	// 6:25:40
+	isTwoFactorEnabled: boolean;
 };
 
 // 3:09:44
 declare module "next-auth" {
-	// interface User extends DefaultUser {
-	// 	role: UserRole,
-	// }
-
 	interface Session {
 		user: ExtendedUser;
 	}

@@ -1,5 +1,10 @@
 import * as z from "zod";
 
+// 6:47:48
+export const SettingsSchema = z.object({
+	name: z.optional(z.string())
+});
+
 // 5:11:01
 export const NewPasswordSchema = z.object({
 	password: z.string().min(6, {

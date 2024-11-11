@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 // 5:57:29
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+// 6:43:30
+import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 
@@ -29,7 +31,11 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          {children}
+          {/** 6:43:38 */}
+          <Toaster />
+        </body>
       </html>
     </SessionProvider>
   );

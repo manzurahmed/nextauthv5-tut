@@ -13,6 +13,10 @@ npx shadcn@latest add button
 npx shadcn@latest add card
 npx shadcn@latest add form
 npx shadcn@latest add input
+npx shadcn@latest add dropdown-menu
+npx shadcn@latest add avatar
+npx shadcn@latest add badge
+npx shadcn@latest add sonner
 
 npm i react-icons
 
