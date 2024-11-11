@@ -80,7 +80,7 @@ const AdminPage = () => {
 
 				<div className="flex flex-row items-center justify-between rounded-md border p-3 shadow-md">
 					<p className="text-sm font-medium">
-						Admin-only Serer Action
+						Admin-only Server Action
 					</p>
 					<Button
 						onClick={onServerActionClick}

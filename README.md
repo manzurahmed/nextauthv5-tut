@@ -17,6 +17,8 @@ npx shadcn@latest add dropdown-menu
 npx shadcn@latest add avatar
 npx shadcn@latest add badge
 npx shadcn@latest add sonner
+npx shadcn@latest add switch
+npx shadcn@latest add select
 
 npm i react-icons
 

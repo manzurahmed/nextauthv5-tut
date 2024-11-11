@@ -7,6 +7,7 @@ import { db } from "@/lib/db";
 import { getUserById } from "@/data/user";
 // 5:37:05
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
+import { getAccountByUserId } from "./data/account";
 
 // 3:09:44
 /*
@@ -127,12 +128,21 @@ export const {
 			if (session.user) {
 				session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
 			}
+			// When any info of User changed from Settings page, update here too
+			if (session.user) {
+				session.user.name = token.name as string;
+				session.user.email = token.email as string;
+				session.user.isOAuth = token.isOAuth as boolean;
+			}
 
 			return session;
 		},
 
 		// async jwt(token) {
 		async jwt({ token }) {
+
+			console.log("AUTH.TS JWT!!!");
+
 			// Besides "token", "jwt" contains "user", "account", "profile", etc.
 			// objects. But, "user", "account", "profile" objects are shown "undefined".
 			// How to use them?
@@ -165,9 +175,23 @@ export const {
 			}
 			// Get the User from the DB
 			const existingUser = await getUserById(token.sub);
+			// If there is not user in the DB, return the token intact
+			if (!existingUser) {
+				return token;
+			}
 
+			// 6:57:46
+			// Get user's account by User ID from Account table
+			const existingAccount = await getAccountByUserId(
+				existingUser.id
+			);
+
+			token.name = existingUser?.name;
+			token.email = existingUser?.email;
 			token.role = existingUser?.role;
 			token.isTwoFactorEnabled = existingUser?.isTwoFactorEnabled;
+			// 6:58:01
+			token.isOAuth = !!existingAccount; // Made it "boolean"
 
 			return token;
 		}
