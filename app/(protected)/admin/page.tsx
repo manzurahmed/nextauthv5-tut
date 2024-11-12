@@ -40,10 +40,10 @@ const AdminPage = () => {
 		fetch("/api/admin")
 			.then((response) => {
 				if (response.ok) {
-					console.log("OKAY");
+					// console.log("OKAY");
 					toast.success("Allowed API Route");
 				} else {
-					console.log("FORBIDDEN");
+					// console.log("FORBIDDEN");
 					toast.success("Forbidden API Route");
 				}
 			})

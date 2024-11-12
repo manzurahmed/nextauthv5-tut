@@ -17,7 +17,7 @@ export const UserInfo = ({
 	label,
 }: UserInfoProps) => {
 
-	console.log("UserInfo:", user);
+	// console.log("UserInfo:", user);
 
 	return (
 		<Card className="w-[600px] shadow-md">

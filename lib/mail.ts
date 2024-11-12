@@ -42,7 +42,7 @@ export const sendVerificationEmail = async (
 	token: string
 ) => {
 
-	console.log("sendVerificationEmail:", email, token);
+	// console.log("sendVerificationEmail:", email, token);
 
 	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 	const confirmLink = `${baseUrl}/auth/new-verification?token=${token}`;

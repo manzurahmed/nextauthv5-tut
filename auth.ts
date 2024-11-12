@@ -142,7 +142,7 @@ export const {
 		// async jwt(token) {
 		async jwt({ token }) {
 
-			console.log("AUTH.TS JWT!!!");
+			// console.log("AUTH.TS JWT!!!");
 
 			// Besides "token", "jwt" contains "user", "account", "profile", etc.
 			// objects. But, "user", "account", "profile" objects are shown "undefined".
@@ -150,7 +150,7 @@ export const {
 
 			/*
 			// Let's see the original token in the console
-			console.log({ token });
+			// console.log({ token });
 			{
 				token: {
 					name: 'Mr. Test',

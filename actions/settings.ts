@@ -15,8 +15,7 @@ export const settings = async (
 	values: z.infer<typeof SettingsSchema>
 ) => {
 
-	console.log("Settings SA:", values);
-
+	// console.log("Settings SA:", values);
 
 	const user = await currentUser();
 	// If there is NO user, show return as "Unauthorized"

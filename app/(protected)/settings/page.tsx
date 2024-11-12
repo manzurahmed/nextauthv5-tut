@@ -100,7 +100,7 @@ const SettingsPage = () => {
 	// const onClick = () => {
 	const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
 
-		console.log("Settings on:", values);
+		// console.log("Settings on:", values);
 
 		// Please note that,
 		// When I update any column value from here,

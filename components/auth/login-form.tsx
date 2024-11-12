@@ -30,12 +30,12 @@ const LoginForm = () => {
 	// 3:43:44
 	const searchParams = useSearchParams();
 	const callbackUrl = searchParams.get("callbackUrl")
-	console.log("Login Form callabackUrl:", callbackUrl);
+	// console.log("Login Form callabackUrl:", callbackUrl);
 
 	const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
 		? "Email already in use with different provider"
 		: "";
-	console.log(urlError);
+	// console.log(urlError);
 
 	// 5:43:52
 	const [showTwoFactor, setShowTwoFactor] = useState(false);
