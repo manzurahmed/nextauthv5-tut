@@ -37,6 +37,7 @@ import {
 	SelectTrigger,
 	SelectValue
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 
 // import { useSession } from "next-auth/react";
 // 5:59:52
@@ -58,7 +59,7 @@ const SettingsPage = () => {
 
 	// 6:01:18
 	const user = useCurrentUser();
-	// console.log(user);
+	// console.log("Settings page:", user);
 
 	// const session = await auth();
 	// console.log("User", session?.user);
@@ -86,16 +87,20 @@ const SettingsPage = () => {
 	const form = useForm<z.infer<typeof SettingsSchema>>({
 		resolver: zodResolver(SettingsSchema),
 		defaultValues: {
-			name: user?.name || undefined, // Do not use like, user?.name || ""
-			email: user?.email || undefined,
 			password: undefined,
 			newPassword: undefined,
+			name: user?.name || undefined, // Do not use like, user?.name || ""
+			email: user?.email || undefined,
+			role: user?.role || undefined,
+			isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
 		}
 	});
 
 	// 6:51:24
 	// const onClick = () => {
 	const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
+
+		console.log("Settings on:", values);
 
 		// Please note that,
 		// When I update any column value from here,
@@ -121,8 +126,6 @@ const SettingsPage = () => {
 	};
 
 	return (
-
-
 		<Card className="w-[600px]">
 			<CardHeader>
 				<p className="text-2xl font-semibold text-center">
@@ -157,60 +160,76 @@ const SettingsPage = () => {
 												disabled={isPending}
 											/>
 										</FormControl>
+
+										<FormMessage />
 									</FormItem>
 								)}
 							/>
-							<FormField
-								control={form.control}
-								name="email"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Email</FormLabel>
-										<FormControl>
-											<Input
-												{...field}
-												placeholder="john.doe@example.com"
-												type="email"
-												disabled={isPending}
-											/>
-										</FormControl>
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="password"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Password</FormLabel>
-										<FormControl>
-											<Input
-												{...field}
-												placeholder="******"
-												type="password"
-												disabled={isPending}
-											/>
-										</FormControl>
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="newPassword"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>New Password</FormLabel>
-										<FormControl>
-											<Input
-												{...field}
-												placeholder="******"
-												type="password"
-												disabled={isPending}
-											/>
-										</FormControl>
-									</FormItem>
-								)}
-							/>
+
+							{/** OAuth Users can't view these fields */}
+							{
+								user?.isOAuth === false && (
+									<>
+										<FormField
+											control={form.control}
+											name="email"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Email</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															placeholder="john.doe@example.com"
+															type="email"
+															disabled={isPending}
+														/>
+													</FormControl>
+
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="password"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Password</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															placeholder="******"
+															type="password"
+															disabled={isPending}
+														/>
+													</FormControl>
+
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="newPassword"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>New Password</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															placeholder="******"
+															type="password"
+															disabled={isPending}
+														/>
+													</FormControl>
+
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</>
+								)
+							}
 
 							<FormField
 								control={form.control}
@@ -237,9 +256,39 @@ const SettingsPage = () => {
 												</SelectItem>
 											</SelectContent>
 										</Select>
+
+										<FormMessage />
 									</FormItem>
 								)}
 							/>
+
+							{/** OAuth Users can't view these fields */}
+							{
+								user?.isOAuth === false && (
+									<FormField
+										control={form.control}
+										name="isTwoFactorEnabled"
+										render={({ field }) => (
+											<FormItem className="flex flex-row items-center justify-between rounded-md border p-3 shadow-sm">
+												<div className="space-y-0.5">
+													<FormLabel>Two Factor Authentication</FormLabel>
+													<FormDescription>
+														Enable two factor authentication for your account
+													</FormDescription>
+												</div>
+												<FormControl>
+													<Switch
+														disabled={isPending}
+														checked={field.value}
+														onCheckedChange={field.onChange}
+													/>
+												</FormControl>
+											</FormItem>
+										)}
+									/>
+								)
+							}
+
 						</div>
 
 						<FormError message={error} />

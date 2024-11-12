@@ -16,6 +16,9 @@ export const UserInfo = ({
 	user,
 	label,
 }: UserInfoProps) => {
+
+	console.log("UserInfo:", user);
+
 	return (
 		<Card className="w-[600px] shadow-md">
 			<CardHeader>
@@ -62,7 +65,7 @@ export const UserInfo = ({
 
 				<div className="flex flex-row items-center justify-between rounded-md border p-3 shadow-sm">
 					<p className="text-sm font-medium">
-						Two Factory Authentication
+						Two Factor Authentication
 					</p>
 					<Badge
 						variant={user?.isTwoFactorEnabled ? "default" : "destructive"}

@@ -114,7 +114,7 @@ export const {
 		// In auth.js in NextAuth v5, Session uses the token to actually generate the session.
 		async session({ token, session }) {
 			// session in both "session" and "jwt" are identical
-			console.log(({ sessionToken: token }));
+			// console.log(({ sessionToken: token }));
 
 			// Pass the user's Id in the session from token.sub
 			if (token.sub && session.user) {
@@ -126,13 +126,14 @@ export const {
 			}
 			// Pass the 2FA in the session from token
 			if (session.user) {
-				session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
+				session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as unknown as boolean;
 			}
 			// When any info of User changed from Settings page, update here too
 			if (session.user) {
 				session.user.name = token.name as string;
 				session.user.email = token.email as string;
 				session.user.isOAuth = token.isOAuth as boolean;
+				session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as unknown as boolean;
 			}
 
 			return session;

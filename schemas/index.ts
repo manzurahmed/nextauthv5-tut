@@ -4,7 +4,7 @@ import * as z from "zod";
 // 6:47:48
 export const SettingsSchema = z.object({
 	name: z.optional(z.string()),
-	isTwoFactoryEnabled: z.optional(z.boolean()),
+	isTwoFactorEnabled: z.optional(z.boolean()),
 	role: z.enum([UserRole.ADMIN, UserRole.USER]),
 	email: z.optional(z.string().email()),
 	password: z.optional(z.string().min(6)),
@@ -30,7 +30,7 @@ export const SettingsSchema = z.object({
 		return true;
 	}, {
 		message: "Password is required!",
-		path: ["newPassword"]
+		path: ["password"]
 	});
 
 // 5:11:01
