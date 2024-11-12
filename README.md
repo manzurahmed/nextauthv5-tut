@@ -19,6 +19,7 @@ npx shadcn@latest add badge
 npx shadcn@latest add sonner
 npx shadcn@latest add switch
 npx shadcn@latest add select
+npx shadcn@latest add dialog
 
 npm i react-icons
 

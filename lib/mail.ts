@@ -2,6 +2,8 @@ import { Resend } from "resend";
 
 // 4:12:27
 const resend = new Resend(process.env.RESEND_API_KEY);
+// 7:47:18
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 // 5:33:53
 export const sendTwoFactorTokenEmail = async (
@@ -23,7 +25,7 @@ export const sendPasswordResetEmail = async (
 	email: string,
 	token: string
 ) => {
-	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
 	const resetLink = `${baseUrl}/auth/new-password?token=${token}`;
 
 	await resend.emails.send({

@@ -40,8 +40,19 @@ export default auth(async (req) => {
 
 	// If we are not logged in
 	if (!isLoggedIn && !isPublicRoute) {
+
+		// 7:41:55
+		// If I logout from "http:localhost/settings", remember it
+		// and when I login again redirect me to my last path.
+		let callbackUrl = nextUrl.pathname;
+		if (nextUrl.search) {
+			callbackUrl += nextUrl.search;
+		}
+
+		const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+
 		return Response.redirect(new URL(
-			"/auth/login",
+			`/auth/login?callbackUrl=${encodedCallbackUrl}`,
 			nextUrl
 		));
 	}

@@ -29,6 +29,9 @@ const LoginForm = () => {
 
 	// 3:43:44
 	const searchParams = useSearchParams();
+	const callbackUrl = searchParams.get("callbackUrl")
+	console.log("Login Form callabackUrl:", callbackUrl);
+
 	const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
 		? "Email already in use with different provider"
 		: "";
@@ -60,7 +63,7 @@ const LoginForm = () => {
 		// 1:26:58
 		// User can't login without 2FA confirmation in each signIn
 		startTransition(() => {
-			login(values)
+			login(values, callbackUrl)
 				.then((data) => {
 
 					if (data?.error) {

@@ -14,7 +14,7 @@ export const publicRoutes = [
 /**
  * List all the routes for the AUTHENTICATED USERS.
  * These routes DO REQUIRE authentication.
- * These routes will redirect logged in users to the "/settings" page.
+ * These routes will redirect logged in users to the DEFAULT_LOGIN_REDIRECT page.
  * @type {string[]}
  */
 export const authRoutes = [
